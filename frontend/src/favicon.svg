@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Badge vermelho estilo Bob's -->
+  <rect x="24" y="24" width="464" height="464" rx="110" ry="110" fill="#EC1C24"/>
+  <rect x="24" y="24" width="464" height="464" rx="110" ry="110" fill="none" stroke="#ffffff" stroke-width="22"/>
+  <!-- Texto branco "Bob's" espelhado horizontalmente -->
+  <g transform="translate(256,256) scale(-1,1)">
+    <text x="0" y="0" text-anchor="middle" dominant-baseline="central"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-size="190" font-weight="bold" font-style="italic"
+          fill="#ffffff">Bob's</text>
+  </g>
+</svg>
