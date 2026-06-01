@@ -1,0 +1,47 @@
+<div class="container status-page" *ngIf="pedido as p">
+  <div class="card status-head">
+    <div>
+      <span class="text-muted">Pedido</span>
+      <h1>#{{ p.id }}</h1>
+    </div>
+    <span class="status-badge" [ngClass]="'status-' + p.status">{{ p.status.replace('_', ' ') }}</span>
+  </div>
+
+  <!-- Cancelado -->
+  <div class="card cancelado" *ngIf="cancelado">
+    <mat-icon>cancel</mat-icon>
+    <div>
+      <strong>Pedido cancelado</strong>
+      <p class="text-muted" *ngIf="p.motivoCancelamento">Motivo: {{ p.motivoCancelamento }}</p>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card" *ngIf="!cancelado">
+    <h3>Acompanhe seu pedido</h3>
+    <div class="timeline">
+      <div class="step" *ngFor="let etapa of etapas; let i = index"
+           [class.done]="i < indiceAtual()" [class.current]="i === indiceAtual()">
+        <div class="dot"><mat-icon>{{ i < indiceAtual() ? 'check' : etapa.icon }}</mat-icon></div>
+        <span>{{ etapa.label }}</span>
+      </div>
+    </div>
+    <p class="auto-refresh text-muted"><mat-icon>autorenew</mat-icon> Atualiza automaticamente a cada 10s</p>
+  </div>
+
+  <!-- Itens -->
+  <div class="card">
+    <h3>Itens</h3>
+    <div class="resumo-item" *ngFor="let item of p.itens">
+      <span>{{ item.quantidade }}x {{ item.pratoNome }}</span>
+      <span>{{ item.subtotal | currencyBr }}</span>
+    </div>
+    <div class="resumo-total flex-between">
+      <strong>Total</strong>
+      <strong class="text-primary">{{ p.valorTotal | currencyBr }}</strong>
+    </div>
+    <p class="text-muted" *ngIf="p.enderecoEntrega"><mat-icon class="inline-ic">place</mat-icon> {{ p.enderecoEntrega }}</p>
+  </div>
+
+  <a routerLink="/meus-pedidos" mat-button>Ver meus pedidos</a>
+</div>

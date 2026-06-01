@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Novo pedido de compra</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fornecedor</mat-label>
+      <mat-select formControlName="fornecedorId">
+        <mat-option *ngFor="let f of fornecedores" [value]="f.id">{{ f.razaoSocial }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <table class="itens-table" formArrayName="itens">
+      <thead><tr><th>Ingrediente</th><th>Qtd</th><th>Preco un.</th><th>Subtotal</th><th></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let item of itens.controls; let i = index" [formGroupName]="i">
+          <td>
+            <mat-form-field appearance="outline" class="cell grow">
+              <mat-select formControlName="ingredienteId">
+                <mat-option *ngFor="let ing of ingredientes" [value]="ing.id">{{ ing.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td><mat-form-field appearance="outline" class="cell sm"><input matInput type="number" formControlName="quantidade"></mat-form-field></td>
+          <td><mat-form-field appearance="outline" class="cell sm"><input matInput type="number" step="0.0001" formControlName="precoUnitario"></mat-form-field></td>
+          <td class="sub">{{ subtotal(item) | currencyBr }}</td>
+          <td><button mat-icon-button color="warn" type="button" (click)="removerItem(i)"><mat-icon>delete</mat-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button mat-stroked-button type="button" (click)="addItem()"><mat-icon>add</mat-icon> Adicionar item</button>
+
+    <div class="total-row"><span>Total</span><strong>{{ total | currencyBr }}</strong></div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button class="btn-primary" (click)="salvar()">Criar pedido</button>
+</mat-dialog-actions>

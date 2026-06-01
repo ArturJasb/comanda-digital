@@ -1,0 +1,83 @@
+<mat-sidenav-container class="layout">
+  <mat-sidenav #cart position="end" mode="over" [opened]="carrinho.aberto$ | async"
+               (closedStart)="carrinho.fechar()" class="cart-drawer">
+    <div class="cart-head">
+      <h3>Seu carrinho</h3>
+      <button mat-icon-button (click)="carrinho.fechar()"><mat-icon>close</mat-icon></button>
+    </div>
+
+    <ng-container *ngIf="(carrinho.items$ | async) as itens">
+      <div *ngIf="itens.length === 0" class="empty-state">
+        <mat-icon>shopping_cart</mat-icon>
+        <p>Seu carrinho esta vazio</p>
+      </div>
+
+      <div *ngIf="itens.length > 0" class="cart-list">
+        <div class="cart-item" *ngFor="let item of itens; let i = index">
+          <div class="ci-info">
+            <strong>{{ item.prato.nome }}</strong>
+            <span class="text-muted" *ngIf="item.observacoes">{{ item.observacoes }}</span>
+            <span class="ci-price">{{ item.prato.precoVenda * item.quantidade | currencyBr }}</span>
+          </div>
+          <div class="ci-actions">
+            <button mat-icon-button (click)="carrinho.alterarQtd(i, -1)"><mat-icon>remove</mat-icon></button>
+            <span class="qtd">{{ item.quantidade }}</span>
+            <button mat-icon-button (click)="carrinho.alterarQtd(i, 1)"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button color="warn" (click)="carrinho.remover(i)"><mat-icon>delete</mat-icon></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-foot" *ngIf="itens.length > 0">
+        <div class="flex-between total-row">
+          <span>Total</span>
+          <strong>{{ carrinho.total | currencyBr }}</strong>
+        </div>
+        <button mat-raised-button class="btn-primary full-width" (click)="finalizar()">
+          Finalizar Pedido
+        </button>
+      </div>
+    </ng-container>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a routerLink="/" class="logo"><span class="logo-mark">🍔</span> Comanda Digital</a>
+        <nav class="nav">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Cardapio</a>
+          <a routerLink="/meus-pedidos" routerLinkActive="active" *ngIf="auth.isLoggedIn()">Meus Pedidos</a>
+        </nav>
+        <div class="topbar-actions">
+          <button mat-icon-button (click)="carrinho.abrir()"
+                  [matBadge]="carrinho.totalItens" [matBadgeHidden]="carrinho.totalItens === 0"
+                  matBadgeColor="warn" aria-label="Carrinho">
+            <mat-icon>shopping_cart</mat-icon>
+          </button>
+
+          <ng-container *ngIf="(user$ | async) as user; else deslogado">
+            <button mat-button [matMenuTriggerFor]="menu">
+              <mat-icon>account_circle</mat-icon> {{ user.nome.split(' ')[0] }}
+            </button>
+            <mat-menu #menu="matMenu">
+              <a mat-menu-item routerLink="/meus-pedidos"><mat-icon>receipt_long</mat-icon> Meus pedidos</a>
+              <a mat-menu-item routerLink="/admin" *ngIf="auth.isAdminArea()"><mat-icon>dashboard</mat-icon> Painel admin</a>
+              <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon> Sair</button>
+            </mat-menu>
+          </ng-container>
+          <ng-template #deslogado>
+            <a mat-button routerLink="/auth/login">Entrar</a>
+          </ng-template>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="footer">
+      <div class="container">Comanda Digital &copy; 2026 — Dark Kitchen · UNASP SP</div>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

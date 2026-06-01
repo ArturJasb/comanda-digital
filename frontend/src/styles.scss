@@ -1,0 +1,148 @@
+/* ============================================================
+   Comanda Digital - estilos globais
+   Identidade visual inspirada no Madero (premium, sofisticado)
+   ============================================================ */
+
+:root {
+  --color-primary: #B11226;        /* vinho Madero */
+  --color-primary-dark: #8E0E1E;
+  --color-secondary: #17120F;      /* quase preto, quente */
+  --color-gold: #C8A45C;           /* dourado champagne */
+  --color-gold-soft: #E7D7B5;
+  --color-success: #0B8A66;
+  --color-warning: #C9821B;
+  --color-danger: #C0322B;
+  --color-bg: #F6F2EC;             /* creme */
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #FBF8F3;
+  --color-text: #1B1714;
+  --color-text-muted: #7A7068;
+  --color-border: #ECE6DC;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(23, 18, 15, 0.05), 0 1px 3px rgba(23, 18, 15, 0.04);
+  --shadow: 0 6px 18px rgba(23, 18, 15, 0.08);
+  --shadow-lg: 0 18px 48px rgba(23, 18, 15, 0.16);
+
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --max-width: 1280px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-2);
+}
+h4 { font-weight: 700; line-height: 1.2; margin: 0 0 var(--space-2); }
+
+/* titulos de dialog tambem em serif */
+.mat-mdc-dialog-title.mat-mdc-dialog-title { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+a { color: var(--color-primary); text-decoration: none; }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+  width: 100%;
+}
+
+/* ---- Botoes Material customizados (vinho Madero) ---- */
+.mat-mdc-raised-button.btn-primary,
+.mat-mdc-unelevated-button.btn-primary {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+  letter-spacing: .02em;
+  font-weight: 600;
+  border-radius: 999px !important;
+  box-shadow: 0 6px 16px rgba(177, 18, 38, 0.28) !important;
+  transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+.mat-mdc-raised-button.btn-primary:hover {
+  background-color: var(--color-primary-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(177, 18, 38, 0.34) !important;
+}
+.mat-mdc-outlined-button { border-radius: 999px !important; }
+
+.text-primary { color: var(--color-primary); }
+.text-muted { color: var(--color-text-muted); }
+.text-success { color: var(--color-success); }
+.text-danger { color: var(--color-danger); }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-3);
+}
+
+/* ---- Food cost badges ---- */
+.food-cost { font-weight: 600; padding: 3px 11px; border-radius: 999px; font-size: 13px; display: inline-block; }
+.food-cost.verde { background: #E3F6EF; color: var(--color-success); }
+.food-cost.amarelo { background: #FBEFD7; color: #9A6411; }
+.food-cost.vermelho { background: #F7E1DF; color: var(--color-danger); }
+
+/* ---- Status badges de pedido ---- */
+.status-badge { font-weight: 600; padding: 4px 12px; border-radius: 999px; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
+.status-RECEBIDO     { background: #EDE9E3; color: #5A5147; }
+.status-CONFIRMADO   { background: #DBEAFE; color: #1D4ED8; }
+.status-EM_PREPARO   { background: #FBEFD7; color: #9A6411; }
+.status-PRONTO       { background: #D7F2E6; color: #0B8A66; }
+.status-SAIU_ENTREGA { background: #EAE3F7; color: #6D28D9; }
+.status-FINALIZADO   { background: #D7F2E6; color: #146C4F; }
+.status-CANCELADO    { background: #F7E1DF; color: #B0291F; }
+.status-RASCUNHO     { background: #EDE9E3; color: #5A5147; }
+.status-ENVIADO      { background: #DBEAFE; color: #1D4ED8; }
+
+/* ---- Utilidades ---- */
+.flex { display: flex; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.gap-1 { gap: var(--space-1); } .gap-2 { gap: var(--space-2); } .gap-3 { gap: var(--space-3); }
+.mt-2 { margin-top: var(--space-2); } .mt-3 { margin-top: var(--space-3); }
+.full-width { width: 100%; }
+.spacer { flex: 1 1 auto; }
+
+/* ---- Snackbars ---- */
+.snack-success { --mdc-snackbar-container-color: var(--color-success); --mdc-snackbar-supporting-text-color: #fff; }
+.snack-error { --mdc-snackbar-container-color: var(--color-danger); --mdc-snackbar-supporting-text-color: #fff; }
+
+/* ---- Estados vazios ---- */
+.empty-state { text-align: center; padding: var(--space-5) var(--space-2); color: var(--color-text-muted); }
+.empty-state mat-icon { font-size: 56px; height: 56px; width: 56px; opacity: .5; }
+
+/* ---- Tabelas e headers de pagina ---- */
+table.mat-mdc-table { background: var(--color-surface); border-radius: var(--radius); overflow: hidden; width: 100%; }
+.mat-mdc-header-row { background: var(--color-surface-alt); }
+.mat-mdc-header-cell { color: var(--color-text-muted); font-weight: 700; letter-spacing: .02em; }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); flex-wrap: wrap; gap: var(--space-2); }
+.page-header h1 { font-size: 30px; margin: 0; }
+
+/* ---- Formularios em dialogs (overlay global) ---- */
+.dialog-form { display: flex; flex-direction: column; gap: 2px; min-width: 320px; }
+.mat-mdc-dialog-content .full-width { width: 100%; }
+.mat-mdc-dialog-content h4 { margin: var(--space-1) 0; }

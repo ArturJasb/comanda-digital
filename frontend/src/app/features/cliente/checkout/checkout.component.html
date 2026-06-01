@@ -1,0 +1,40 @@
+<div class="container checkout">
+  <h1>Finalizar pedido</h1>
+
+  <div class="checkout-grid">
+    <div class="card">
+      <h3>Resumo do pedido</h3>
+      <div class="resumo-item" *ngFor="let item of carrinho.items">
+        <span>{{ item.quantidade }}x {{ item.prato.nome }}</span>
+        <span>{{ item.prato.precoVenda * item.quantidade | currencyBr }}</span>
+      </div>
+      <div class="resumo-total flex-between">
+        <strong>Total</strong>
+        <strong class="text-primary">{{ carrinho.total | currencyBr }}</strong>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Entrega e pagamento</h3>
+      <form [formGroup]="form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Endereco de entrega</mat-label>
+          <input matInput formControlName="enderecoEntrega" placeholder="Rua, numero, bairro...">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Observacoes</mat-label>
+          <textarea matInput rows="3" formControlName="observacoes" placeholder="Ex: sem cebola, troco para 50..."></textarea>
+        </mat-form-field>
+
+        <div class="pgto">
+          <mat-icon>payments</mat-icon>
+          <span>Pagamento simulado — marcado como <strong>pago</strong> na entrega.</span>
+        </div>
+
+        <button mat-raised-button class="btn-primary full-width" (click)="confirmar()" [disabled]="enviando">
+          {{ enviando ? 'Enviando...' : 'Confirmar Pedido' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

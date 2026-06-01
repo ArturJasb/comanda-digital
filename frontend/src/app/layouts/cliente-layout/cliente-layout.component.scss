@@ -1,0 +1,43 @@
+.layout { min-height: 100vh; background: var(--color-bg); }
+
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.topbar-inner { display: flex; align-items: center; gap: var(--space-3); height: 72px; }
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 23px; color: var(--color-secondary); display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em; }
+.logo-mark { font-size: 26px; }
+.nav { display: flex; gap: var(--space-3); margin-left: var(--space-3); }
+.nav a { color: var(--color-text); font-weight: 600; font-size: 14px; padding: 6px 2px; border-bottom: 2px solid transparent; transition: color .2s ease, border-color .2s ease; }
+.nav a:hover { color: var(--color-primary); }
+.nav a.active { color: var(--color-primary); border-bottom-color: var(--color-gold); }
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+
+.content { min-height: calc(100vh - 72px - 88px); }
+
+.footer {
+  background: var(--color-secondary); color: #cdc3b8; padding: var(--space-4) 0; font-size: 14px; margin-top: var(--space-5);
+  border-top: 4px solid var(--color-gold);
+  letter-spacing: .02em;
+}
+
+/* ---- Cart drawer ---- */
+.cart-drawer { width: 390px; max-width: 92vw; padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; border-left: 1px solid var(--color-border); }
+.cart-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: var(--space-1); border-bottom: 1px solid var(--color-border); }
+.cart-head h3 { font-family: var(--font-display); margin: 0; }
+.cart-list { flex: 1; overflow-y: auto; padding: var(--space-1) 0; }
+.cart-item { display: flex; justify-content: space-between; gap: var(--space-1); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border); }
+.ci-info { display: flex; flex-direction: column; gap: 2px; }
+.ci-info .ci-price { color: var(--color-primary); font-weight: 600; }
+.ci-actions { display: flex; align-items: center; }
+.ci-actions .qtd { min-width: 22px; text-align: center; font-weight: 600; }
+.cart-foot { border-top: 1px solid var(--color-border); padding-top: var(--space-2); }
+.total-row { font-size: 18px; margin-bottom: var(--space-2); }
+.total-row strong { font-family: var(--font-display); font-size: 22px; color: var(--color-primary); }
+
+@media (max-width: 600px) {
+  .nav { display: none; }
+}

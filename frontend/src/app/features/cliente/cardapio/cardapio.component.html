@@ -1,0 +1,51 @@
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <span class="hero-tag">Dark Kitchen · Delivery</span>
+      <h1>Sabor de verdade,<br>entregue na sua porta</h1>
+      <p>Hamburgueres artesanais, açaí cremoso e muito mais. Peça agora e acompanhe em tempo real.</p>
+      <button mat-raised-button class="btn-primary" (click)="scrollMenu.scrollIntoView({behavior:'smooth'})">
+        Peça Agora
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="container" #scrollMenu>
+  <!-- Categorias (chips) -->
+  <div class="chips">
+    <button class="chip" [class.active]="categoriaAtiva === null" (click)="filtrar(null)">Todos</button>
+    <button class="chip" *ngFor="let c of categorias"
+            [class.active]="categoriaAtiva === c.id" (click)="filtrar(c.id)">{{ c.nome }}</button>
+  </div>
+
+  <!-- Skeleton de carregamento -->
+  <div class="grid" *ngIf="carregando">
+    <div class="skeleton-card" *ngFor="let s of [1,2,3,4]"></div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!carregando && pratos.length === 0">
+    <mat-icon>restaurant</mat-icon>
+    <p>Nenhum prato disponivel nesta categoria.</p>
+  </div>
+
+  <!-- Grid de pratos -->
+  <div class="grid" *ngIf="!carregando && pratos.length > 0">
+    <article class="prato-card" *ngFor="let p of pratos">
+      <div class="img" [style.backgroundImage]="'url(' + (p.fotoUrl || 'https://via.placeholder.com/400x250?text=Comanda') + ')'"></div>
+      <div class="prato-body">
+        <div class="cat">{{ p.categoriaNome }}</div>
+        <h3>{{ p.nome }}</h3>
+        <p class="desc">{{ p.descricao }}</p>
+        <div class="prato-foot">
+          <span class="preco">{{ p.precoVenda | currencyBr }}</span>
+          <button mat-raised-button class="btn-primary" (click)="adicionar(p)">
+            <mat-icon>add</mat-icon> Adicionar
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

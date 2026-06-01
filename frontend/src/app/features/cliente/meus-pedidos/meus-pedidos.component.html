@@ -1,0 +1,25 @@
+<div class="container meus-pedidos">
+  <h1>Meus pedidos</h1>
+
+  <div class="empty-state" *ngIf="!carregando && pedidos.length === 0">
+    <mat-icon>receipt_long</mat-icon>
+    <p>Voce ainda nao fez nenhum pedido.</p>
+    <a mat-raised-button class="btn-primary" routerLink="/">Ver cardapio</a>
+  </div>
+
+  <div class="lista">
+    <a class="card pedido-card" *ngFor="let p of pedidos" [routerLink]="['/pedido', p.id]">
+      <div class="pc-head">
+        <strong>Pedido #{{ p.id }}</strong>
+        <span class="status-badge" [ngClass]="'status-' + p.status">{{ p.status.replace('_',' ') }}</span>
+      </div>
+      <div class="pc-body text-muted">
+        {{ p.createdAt | date:'dd/MM/yyyy HH:mm' }} · {{ p.itens.length }} item(s)
+      </div>
+      <div class="pc-foot flex-between">
+        <span class="text-muted">{{ p.itens[0].pratoNome }}<ng-container *ngIf="p.itens.length > 1"> +{{ p.itens.length - 1 }}</ng-container></span>
+        <strong class="text-primary">{{ p.valorTotal | currencyBr }}</strong>
+      </div>
+    </a>
+  </div>
+</div>

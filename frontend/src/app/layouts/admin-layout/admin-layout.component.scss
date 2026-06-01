@@ -1,0 +1,40 @@
+.admin-shell { height: 100vh; }
+
+.sidebar {
+  width: 256px;
+  background: linear-gradient(180deg, #1d1713 0%, var(--color-secondary) 100%);
+  color: #e5ddd3;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) 0;
+}
+.brand { display: flex; align-items: center; gap: 10px; padding: var(--space-2) var(--space-3) var(--space-3); margin-bottom: var(--space-1); border-bottom: 1px solid rgba(200,164,92,.18); }
+.brand-mark { font-size: 28px; }
+.brand-name { font-family: var(--font-display); font-weight: 800; font-size: 19px; line-height: 1; }
+.brand-name small { font-family: 'Inter', sans-serif; font-size: 10px; color: var(--color-gold); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+.menu { display: flex; flex-direction: column; gap: 3px; padding: var(--space-1) var(--space-1) 0; flex: 1; }
+.menu-item {
+  display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-radius: var(--radius);
+  color: #c3b8aa; font-weight: 500; transition: background .15s ease, color .15s ease;
+  position: relative;
+}
+.menu-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+.menu-item.active { background: rgba(177,18,38,.92); color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+.menu-item.active::before { content: ''; position: absolute; left: -4px; top: 18%; bottom: 18%; width: 3px; border-radius: 3px; background: var(--color-gold); }
+.menu-item.back { margin: var(--space-2) var(--space-1) 0; border-top: 1px solid rgba(255,255,255,.08); border-radius: 0; padding-top: var(--space-2); }
+
+.main { background: var(--color-bg); }
+.topbar {
+  height: 64px; background: var(--color-surface); border-bottom: 1px solid var(--color-border);
+  display: flex; align-items: center; padding: 0 var(--space-3); gap: var(--space-1);
+  position: sticky; top: 0; z-index: 5;
+}
+.perfil-chip { background: #F7E6E2; color: var(--color-primary); font-weight: 700; font-size: 11px; letter-spacing: .5px; padding: 4px 11px; border-radius: 999px; text-transform: uppercase; }
+.page { padding: var(--space-3); }
+
+@media (max-width: 800px) {
+  .sidebar { width: 64px; }
+  .brand-name, .menu-item span { display: none; }
+}

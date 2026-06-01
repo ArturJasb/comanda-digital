@@ -1,0 +1,52 @@
+<div class="page-header"><h1>Dashboard</h1></div>
+
+<ng-container *ngIf="resumo as r">
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi card">
+      <div class="kpi-ic" style="background:#FBE3E3;color:#C8102E"><mat-icon>payments</mat-icon></div>
+      <div><span class="kpi-label">Faturamento do dia</span><strong>{{ r.faturamentoDia | currencyBr }}</strong></div>
+    </div>
+    <div class="kpi card">
+      <div class="kpi-ic" style="background:#DBEAFE;color:#1D4ED8"><mat-icon>receipt_long</mat-icon></div>
+      <div><span class="kpi-label">Pedidos do dia</span><strong>{{ r.totalPedidosDia }}</strong></div>
+    </div>
+    <div class="kpi card">
+      <div class="kpi-ic" style="background:#E3F6EF;color:#06A77D"><mat-icon>trending_up</mat-icon></div>
+      <div><span class="kpi-label">Ticket medio</span><strong>{{ r.ticketMedio | currencyBr }}</strong></div>
+    </div>
+    <div class="kpi card">
+      <div class="kpi-ic" style="background:#FCEFD6;color:#B5730A"><mat-icon>percent</mat-icon></div>
+      <div><span class="kpi-label">Food cost medio</span>
+        <strong><span class="food-cost" [ngClass]="(r.foodCostMedio | foodCostColor)">{{ r.foodCostMedio }}%</span></strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graficos -->
+  <div class="charts">
+    <div class="card chart-card">
+      <h3>Top 5 pratos (30 dias)</h3>
+      <div class="chart-box"><canvas baseChart [type]="'bar'" [data]="barData" [options]="barOptions"></canvas></div>
+    </div>
+    <div class="card chart-card">
+      <h3>Faturamento (7 dias)</h3>
+      <div class="chart-box"><canvas baseChart [type]="'line'" [data]="lineData" [options]="lineOptions"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Alertas de estoque -->
+  <div class="card">
+    <h3>Alertas de estoque <span class="badge-count" *ngIf="r.alertasEstoque.length">{{ r.alertasEstoque.length }}</span></h3>
+    <div *ngIf="r.alertasEstoque.length === 0" class="text-muted">Nenhum ingrediente abaixo do minimo. 👍</div>
+    <div class="alertas">
+      <div class="alerta" *ngFor="let a of r.alertasEstoque">
+        <mat-icon>warning</mat-icon>
+        <div>
+          <strong>{{ a.nome }}</strong>
+          <span class="text-muted">Saldo {{ a.saldoAtual }} {{ a.unidadePadrao }} · minimo {{ a.estoqueMinimo }} {{ a.unidadePadrao }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

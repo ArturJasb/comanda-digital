@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>{{ data ? 'Editar' : 'Novo' }} fornecedor</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <h4 class="section-title">Dados do fornecedor</h4>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Razao social</mat-label>
+      <input matInput formControlName="razaoSocial">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>CNPJ</mat-label>
+      <input matInput formControlName="cnpj" placeholder="00.000.000/0000-00">
+      <mat-hint>Validado pelo algoritmo (RN-07)</mat-hint>
+    </mat-form-field>
+
+    <div class="two-col">
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="telefone">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="ATIVO">ATIVO</mat-option>
+        <mat-option value="INATIVO">INATIVO</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h4 class="section-title">Catalogo de produtos</h4>
+
+    <div class="prod-list" formArrayName="produtos">
+      <div class="prod-row" *ngFor="let p of produtos.controls; let i = index" [formGroupName]="i">
+        <mat-form-field appearance="outline" class="grow">
+          <mat-label>Ingrediente</mat-label>
+          <mat-select formControlName="ingredienteId">
+            <mat-option *ngFor="let ing of ingredientes" [value]="ing.id">{{ ing.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="sm">
+          <mat-label>Preco</mat-label>
+          <input matInput type="number" step="0.0001" formControlName="preco">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="xs">
+          <mat-label>Un</mat-label>
+          <mat-select formControlName="unidadeVenda">
+            <mat-option value="G">G</mat-option><mat-option value="ML">ML</mat-option><mat-option value="UN">UN</mat-option>
+            <mat-option value="KG">KG</mat-option><mat-option value="L">L</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button color="warn" type="button" matTooltip="Remover" (click)="removerProduto(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <p class="prod-empty text-muted" *ngIf="produtos.length === 0">
+        Nenhum produto no catalogo. Adicione os ingredientes que este fornecedor vende.
+      </p>
+    </div>
+
+    <button mat-stroked-button type="button" class="add-btn" (click)="addProduto()">
+      <mat-icon>add</mat-icon> Adicionar produto
+    </button>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button class="btn-primary" (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

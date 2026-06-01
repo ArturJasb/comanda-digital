@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h1>Estoque</h1>
+  <button mat-raised-button color="warn" (click)="saidaManual()"><mat-icon>remove_circle</mat-icon> Saida manual</button>
+</div>
+
+<mat-tab-group>
+  <mat-tab label="Saldo atual">
+    <div class="card mt-2">
+      <table mat-table [dataSource]="saldos" class="full-width">
+        <ng-container matColumnDef="nome"><th mat-header-cell *matHeaderCellDef>Ingrediente</th>
+          <td mat-cell *matCellDef="let s">{{ s.nome }}</td></ng-container>
+        <ng-container matColumnDef="sku"><th mat-header-cell *matHeaderCellDef>SKU</th>
+          <td mat-cell *matCellDef="let s" class="text-muted">{{ s.sku }}</td></ng-container>
+        <ng-container matColumnDef="saldo"><th mat-header-cell *matHeaderCellDef>Saldo</th>
+          <td mat-cell *matCellDef="let s"><strong [class.text-danger]="s.abaixoMinimo">{{ s.saldoAtual }} {{ s.unidadePadrao }}</strong></td></ng-container>
+        <ng-container matColumnDef="minimo"><th mat-header-cell *matHeaderCellDef>Minimo</th>
+          <td mat-cell *matCellDef="let s" class="text-muted">{{ s.estoqueMinimo }} {{ s.unidadePadrao }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let s">
+            <span class="status-badge" [ngClass]="s.abaixoMinimo ? 'status-CANCELADO' : 'status-PRONTO'">
+              {{ s.abaixoMinimo ? 'ABAIXO DO MINIMO' : 'OK' }}</span>
+          </td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="colsSaldo"></tr>
+        <tr mat-row *matRowDef="let row; columns: colsSaldo"></tr>
+      </table>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Historico">
+    <div class="card mt-2">
+      <table mat-table [dataSource]="movimentacoes" class="full-width">
+        <ng-container matColumnDef="data"><th mat-header-cell *matHeaderCellDef>Data</th>
+          <td mat-cell *matCellDef="let m" class="text-muted">{{ m.createdAt | date:'dd/MM HH:mm' }}</td></ng-container>
+        <ng-container matColumnDef="ingrediente"><th mat-header-cell *matHeaderCellDef>Ingrediente</th>
+          <td mat-cell *matCellDef="let m">{{ m.ingredienteNome }}</td></ng-container>
+        <ng-container matColumnDef="tipo"><th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let m"><span class="tipo" [ngClass]="m.tipo">{{ m.tipo }}</span></td></ng-container>
+        <ng-container matColumnDef="qtd"><th mat-header-cell *matHeaderCellDef>Qtd</th>
+          <td mat-cell *matCellDef="let m">{{ m.quantidade }}</td></ng-container>
+        <ng-container matColumnDef="motivo"><th mat-header-cell *matHeaderCellDef>Motivo</th>
+          <td mat-cell *matCellDef="let m" class="text-muted">{{ m.motivo }}</td></ng-container>
+        <ng-container matColumnDef="ref"><th mat-header-cell *matHeaderCellDef>Ref</th>
+          <td mat-cell *matCellDef="let m" class="text-muted">
+            <span *ngIf="m.pedidoId">Pedido #{{ m.pedidoId }}</span>
+            <span *ngIf="m.pedidoCompraId">Compra #{{ m.pedidoCompraId }}</span>
+          </td></ng-container>
+        <ng-container matColumnDef="usuario"><th mat-header-cell *matHeaderCellDef>Por</th>
+          <td mat-cell *matCellDef="let m" class="text-muted">{{ m.usuarioNome }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="colsMov"></tr>
+        <tr mat-row *matRowDef="let row; columns: colsMov"></tr>
+      </table>
+      <div class="empty-state" *ngIf="movimentacoes.length === 0"><mat-icon>history</mat-icon><p>Sem movimentacoes.</p></div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

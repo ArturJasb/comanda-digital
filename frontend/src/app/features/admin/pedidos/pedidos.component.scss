@@ -1,0 +1,15 @@
+.header-actions { display: flex; align-items: center; gap: var(--space-2); }
+.filtro { width: 180px; }
+.filtro ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; }
+
+.kanban { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); gap: var(--space-2); overflow-x: auto; padding-bottom: var(--space-2); }
+.kb-col { background: #f1f1f3; border-radius: var(--radius-lg); padding: var(--space-1); min-height: 200px; }
+.kb-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; }
+.kb-count { font-weight: 700; color: var(--color-text-muted); }
+.kb-cards { display: flex; flex-direction: column; gap: 8px; }
+.kb-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 10px; cursor: pointer; transition: box-shadow .15s ease; }
+.kb-card:hover { box-shadow: var(--shadow); }
+.kb-card .sm { font-size: 12px; }
+.kb-actions { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+.kb-actions button.mat-mdc-outlined-button { font-size: 12px; line-height: 30px; }
+.kb-empty { text-align: center; color: var(--color-text-muted); padding: var(--space-2); }

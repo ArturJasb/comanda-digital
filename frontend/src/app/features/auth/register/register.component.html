@@ -1,0 +1,45 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="brand">
+      <span class="brand-mark">🍔</span>
+      <h1>Criar conta</h1>
+      <p class="text-muted">Rapido e gratis</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="nome">
+        <mat-error>Informe seu nome</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error>Email invalido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="senha">
+        <mat-error>Minimo 6 caracteres</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="telefone">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Endereco de entrega</mat-label>
+        <input matInput formControlName="endereco">
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-primary full-width" type="submit" [disabled]="carregando">
+        {{ carregando ? 'Criando...' : 'Criar conta' }}
+      </button>
+    </form>
+
+    <p class="auth-foot">Ja tem conta? <a routerLink="/auth/login">Entrar</a></p>
+  </div>
+</div>

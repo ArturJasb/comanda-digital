@@ -1,0 +1,66 @@
+<div class="page-header">
+  <h1>Pedidos</h1>
+  <div class="header-actions">
+    <mat-form-field appearance="outline" class="filtro">
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="filtro" (selectionChange)="carregar()">
+        <mat-option value="">Todos</mat-option>
+        <mat-option *ngFor="let s of fluxo" [value]="s">{{ s.replace('_',' ') }}</mat-option>
+        <mat-option value="CANCELADO">CANCELADO</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-button-toggle-group [(value)]="view">
+      <mat-button-toggle value="lista"><mat-icon>list</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="kanban"><mat-icon>view_kanban</mat-icon></mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+
+<!-- LISTA -->
+<div class="card" *ngIf="view === 'lista'">
+  <table mat-table [dataSource]="pedidos" class="full-width">
+    <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let p">{{ p.id }}</td></ng-container>
+    <ng-container matColumnDef="cliente"><th mat-header-cell *matHeaderCellDef>Cliente</th>
+      <td mat-cell *matCellDef="let p">{{ p.clienteNome }}</td></ng-container>
+    <ng-container matColumnDef="data"><th mat-header-cell *matHeaderCellDef>Data</th>
+      <td mat-cell *matCellDef="let p" class="text-muted">{{ p.createdAt | date:'dd/MM HH:mm' }}</td></ng-container>
+    <ng-container matColumnDef="itens"><th mat-header-cell *matHeaderCellDef>Itens</th>
+      <td mat-cell *matCellDef="let p">{{ p.itens.length }}</td></ng-container>
+    <ng-container matColumnDef="total"><th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let p">{{ p.valorTotal | currencyBr }}</td></ng-container>
+    <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let p"><span class="status-badge" [ngClass]="'status-' + p.status">{{ p.status.replace('_',' ') }}</span></td></ng-container>
+    <ng-container matColumnDef="acoes"><th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let p">
+        <button mat-icon-button matTooltip="Detalhes" (click)="detalhe(p)"><mat-icon>visibility</mat-icon></button>
+        <button mat-icon-button matTooltip="Avancar status" *ngIf="proximo(p.status)" (click)="avancar(p)"><mat-icon>arrow_forward</mat-icon></button>
+        <button mat-icon-button color="warn" matTooltip="Cancelar" *ngIf="podeCancelar(p)" (click)="cancelar(p)"><mat-icon>cancel</mat-icon></button>
+      </td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="cols"></tr>
+    <tr mat-row *matRowDef="let row; columns: cols"></tr>
+  </table>
+  <div class="empty-state" *ngIf="pedidos.length === 0"><mat-icon>receipt_long</mat-icon><p>Nenhum pedido.</p></div>
+</div>
+
+<!-- KANBAN -->
+<div class="kanban" *ngIf="view === 'kanban'">
+  <div class="kb-col" *ngFor="let col of colunasKanban">
+    <div class="kb-head"><span class="status-badge" [ngClass]="'status-' + col">{{ col.replace('_',' ') }}</span>
+      <span class="kb-count">{{ porStatus(col).length }}</span></div>
+    <div class="kb-cards">
+      <div class="kb-card" *ngFor="let p of porStatus(col)" (click)="detalhe(p)">
+        <div class="flex-between"><strong>#{{ p.id }}</strong><span>{{ p.valorTotal | currencyBr }}</span></div>
+        <div class="text-muted">{{ p.clienteNome }}</div>
+        <div class="text-muted sm">{{ p.itens.length }} item(s) · {{ p.createdAt | date:'HH:mm' }}</div>
+        <div class="kb-actions" (click)="$event.stopPropagation()">
+          <button mat-stroked-button *ngIf="proximo(p.status)" (click)="avancar(p)">
+            <mat-icon>arrow_forward</mat-icon> {{ proximo(p.status)?.replace('_',' ') }}
+          </button>
+          <button mat-icon-button color="warn" *ngIf="podeCancelar(p)" (click)="cancelar(p)"><mat-icon>cancel</mat-icon></button>
+        </div>
+      </div>
+      <div class="kb-empty" *ngIf="porStatus(col).length === 0">—</div>
+    </div>
+  </div>
+</div>

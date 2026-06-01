@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Ficha tecnica — {{ prato.nome }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="ficha-top">
+      <mat-form-field appearance="outline">
+        <mat-label>Rendimento (porcoes)</mat-label>
+        <input matInput type="number" formControlName="rendimento">
+      </mat-form-field>
+      <div class="preco-info">
+        <span class="text-muted">Preco de venda</span>
+        <strong>{{ prato.precoVenda | currencyBr }}</strong>
+      </div>
+    </div>
+
+    <table class="ficha-table" formArrayName="itens">
+      <thead>
+        <tr><th>Ingrediente</th><th>Qtd</th><th>Un</th><th>FC</th><th>Custo</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of itens.controls; let i = index" [formGroupName]="i">
+          <td>
+            <mat-form-field appearance="outline" class="cell-field">
+              <mat-select formControlName="ingredienteId">
+                <mat-option *ngFor="let ing of ingredientes" [value]="ing.id">{{ ing.nome }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td><mat-form-field appearance="outline" class="cell-field sm"><input matInput type="number" formControlName="quantidade"></mat-form-field></td>
+          <td>
+            <mat-form-field appearance="outline" class="cell-field xs">
+              <mat-select formControlName="unidade">
+                <mat-option value="G">G</mat-option><mat-option value="ML">ML</mat-option><mat-option value="UN">UN</mat-option>
+                <mat-option value="KG">KG</mat-option><mat-option value="L">L</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td><mat-form-field appearance="outline" class="cell-field xs"><input matInput type="number" step="0.01" formControlName="fatorCorrecao"></mat-form-field></td>
+          <td class="custo-cell">{{ custoItem(item) | currencyBr }}</td>
+          <td><button mat-icon-button color="warn" type="button" (click)="removerItem(i)"><mat-icon>delete</mat-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button mat-stroked-button type="button" (click)="addItem()"><mat-icon>add</mat-icon> Adicionar ingrediente</button>
+
+    <mat-form-field appearance="outline" class="full-width mt-2">
+      <mat-label>Modo de preparo</mat-label>
+      <textarea matInput rows="3" formControlName="modoPreparo"></textarea>
+    </mat-form-field>
+
+    <div class="resumo-custo">
+      <div><span class="text-muted">Custo total</span><strong>{{ custoTotal | currencyBr }}</strong></div>
+      <div><span class="text-muted">Food cost</span>
+        <strong><span class="food-cost" [ngClass]="(foodCostPct | foodCostColor)">{{ foodCostPct | number:'1.1-1' }}%</span></strong>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button class="btn-primary" (click)="salvar()">Salvar ficha</button>
+</mat-dialog-actions>

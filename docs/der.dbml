@@ -1,0 +1,139 @@
+// Comanda Digital - DER (fonte para dbdiagram.io)
+// Importe este arquivo em https://dbdiagram.io e exporte como der.png
+
+Table usuario {
+  id bigint [pk, increment]
+  nome varchar
+  email varchar [unique, not null]
+  senha_hash varchar [not null]
+  perfil varchar [note: 'ADMIN/GERENTE/COZINHEIRO/CLIENTE']
+  telefone varchar
+  endereco varchar
+  status varchar [note: 'ATIVO/INATIVO']
+  created_at datetime
+  updated_at datetime
+}
+
+Table categoria {
+  id bigint [pk, increment]
+  nome varchar
+  descricao varchar
+  ordem int
+  status varchar
+  created_at datetime
+}
+
+Table prato {
+  id bigint [pk, increment]
+  categoria_id bigint [ref: > categoria.id]
+  nome varchar
+  descricao varchar
+  foto_url varchar
+  preco_venda decimal
+  tempo_preparo_min int
+  status varchar [note: 'ATIVO/INATIVO/PAUSADO']
+  created_at datetime
+}
+
+Table ingrediente {
+  id bigint [pk, increment]
+  nome varchar
+  sku varchar [unique]
+  unidade_padrao varchar [note: 'G/ML/UN/KG/L']
+  estoque_minimo decimal
+  custo_unitario decimal
+  status varchar
+  created_at datetime
+}
+
+Table ficha_tecnica {
+  id bigint [pk, increment]
+  prato_id bigint [unique, ref: - prato.id]
+  rendimento int
+  modo_preparo text
+  created_at datetime
+}
+
+Table ficha_tecnica_item {
+  id bigint [pk, increment]
+  ficha_tecnica_id bigint [ref: > ficha_tecnica.id]
+  ingrediente_id bigint [ref: > ingrediente.id]
+  quantidade decimal
+  unidade varchar
+  fator_correcao decimal
+}
+
+Table fornecedor {
+  id bigint [pk, increment]
+  razao_social varchar
+  cnpj varchar [unique]
+  telefone varchar
+  email varchar
+  status varchar
+  created_at datetime
+}
+
+Table fornecedor_produto {
+  id bigint [pk, increment]
+  fornecedor_id bigint [ref: > fornecedor.id]
+  ingrediente_id bigint [ref: > ingrediente.id]
+  preco decimal
+  unidade_venda varchar
+  indexes {
+    (fornecedor_id, ingrediente_id) [unique]
+  }
+}
+
+Table pedido_compra {
+  id bigint [pk, increment]
+  fornecedor_id bigint [ref: > fornecedor.id]
+  status varchar [note: 'RASCUNHO/ENVIADO/RECEBIDO/CANCELADO']
+  valor_total decimal
+  usuario_id bigint [ref: > usuario.id]
+  created_at datetime
+}
+
+Table pedido_compra_item {
+  id bigint [pk, increment]
+  pedido_compra_id bigint [ref: > pedido_compra.id]
+  ingrediente_id bigint [ref: > ingrediente.id]
+  quantidade decimal
+  preco_unitario decimal
+  subtotal decimal
+}
+
+Table pedido {
+  id bigint [pk, increment]
+  cliente_id bigint [ref: > usuario.id]
+  status varchar [note: 'RECEBIDO/CONFIRMADO/EM_PREPARO/PRONTO/SAIU_ENTREGA/FINALIZADO/CANCELADO']
+  valor_total decimal
+  endereco_entrega varchar
+  observacoes varchar
+  motivo_cancelamento varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table pedido_item {
+  id bigint [pk, increment]
+  pedido_id bigint [ref: > pedido.id]
+  prato_id bigint [ref: > prato.id]
+  quantidade int
+  preco_unitario decimal
+  observacoes varchar
+}
+
+Table estoque_movimentacao {
+  id bigint [pk, increment]
+  ingrediente_id bigint [ref: > ingrediente.id]
+  tipo varchar [note: 'ENTRADA/SAIDA/ESTORNO']
+  quantidade decimal
+  motivo varchar [note: 'COMPRA/VENDA/DESPERDICIO/VENCIMENTO/AJUSTE/ESTORNO/USO_INTERNO']
+  lote varchar
+  validade date
+  custo_unitario decimal
+  pedido_compra_id bigint [ref: > pedido_compra.id, null]
+  pedido_id bigint [ref: > pedido.id, null]
+  usuario_id bigint [ref: > usuario.id]
+  created_at datetime
+}
