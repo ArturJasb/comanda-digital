@@ -230,6 +230,12 @@ A documentação completa e testável fica no **Swagger** (`/swagger-ui.html`). 
 
 ---
 
-## 👤 Autor
-**Artur Brito** — Análise e Desenvolvimento de Sistemas, UNASP SP.
+## 👤 Autores
+- **Artur Brito** — Análise e Desenvolvimento de Sistemas, UNASP SP.
+- **Luigi Sapucaia** — Análise e Desenvolvimento de Sistemas, UNASP SP.
+
 Trabalho Full-Stack (G01371.1) — Prof. Thiago Silva · 2026/1.
+
+---
+
+> **Colaboradores:** Artur Brito · Luigi Sapucaia
