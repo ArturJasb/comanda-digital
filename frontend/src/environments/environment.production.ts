@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://comanda-api.onrender.com/api'
+  apiUrl: 'comanda-digital-production-0831.up.railway.app/api'
 };
